@@ -1,9 +1,11 @@
 import employeelist
 import employee
+import day
 
 list_of_employee_objects = []
 id = 1
-
+start_date = 1
+week = day.Week(start_date)
 
 # manages entire program
 def main():
@@ -16,6 +18,10 @@ def main():
 
     for person in list_of_employee_objects:
         print(person.name, " | ID number:", person.id)
+
+    week.create_week(list_of_employee_objects)
+
+    week.get_employees_working()
 
     quit()
 
