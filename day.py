@@ -16,6 +16,7 @@ class Day(object):
         self.closing_shift = []
         self.weekend = weekend
         self.shifts_to_cover = 20
+        self.job_duties = ['s/4', 's/3', 'u/2', 'p/5', 'u/p']
 
     def remove_from_list(self, copied_to, copied_from):
         for name in copied_to:
@@ -35,10 +36,21 @@ class Day(object):
 
     def get_names_of_employees_working(self):
         for employee in self.opening_shift:
-            print("opening:", self.date, employee.name)
+            print("opening:", self.date, employee.name, employee.job_duty)
         for employee in self.closing_shift:
-            print("closing:", self.date, employee.name)
+            print("closing:", self.date, employee.name, employee.job_duty)
         print()
+
+    def assign_shift_duties(self, shift):
+        job = 0
+        for employee in shift:
+            employee.assign_job_duty(self.job_duties[job])
+            job += 1
+
+
+    def assign_job_duties(self):
+        self.assign_shift_duties(self.opening_shift)
+        self.assign_shift_duties(self.closing_shift)
 
 
 class Week(object):
@@ -66,6 +78,7 @@ class Week(object):
         for day in self.list_of_days:
             day.add_workers(list_of_employee_objects)
             day.assign_shift()
+            day.assign_job_duties()
 
     # creates the week
     def create_week(self, list_of_employee_objects):
