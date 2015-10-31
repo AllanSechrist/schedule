@@ -7,7 +7,7 @@ class Employee(object):
         self.name = name
         self.id = id
         self.days = 0
-
+    """
     def get_name(self):
         return self.name
 
@@ -16,7 +16,7 @@ class Employee(object):
 
     def get_days(self):
         return self.days
-
+    """
 
 class Manager(Employee):
     def __init__(self, name, id):

@@ -1,6 +1,7 @@
 import random
 import employee
 
+
 class Day(object):
     """
     creates a day object that will have an array of employees
@@ -37,29 +38,41 @@ class Day(object):
             print("opening:", self.date, employee.name)
         for employee in self.closing_shift:
             print("closing:", self.date, employee.name)
+        print()
+
 
 class Week(object):
+    """
+    Manages days and the assignment of duties and scheduling for each day
+    """
 
-    def __init__(self, start_date):
-        self.start_date = start_date
+    def __init__(self, month, year):
+        self.start_day = 1
+        self.month = month
+        self.year = year
         self.week = 7
         self.list_of_days = []
 
+    # adds day objects to the week
     def add_days(self):
         for x in range(self.week):
-            day = Day(self.start_date, weekend=False)
-            self.start_date += 1
+            date = str(self.start_day) + self.month + self.year
+            day = Day(date, weekend=False)
             self.list_of_days.append(day)
+            self.start_day += 1
 
+    # assigns employees a shift for each day in this week
     def add_workers_to_days(self, list_of_employee_objects):
         for day in self.list_of_days:
             day.add_workers(list_of_employee_objects)
             day.assign_shift()
 
+    # creates the week
     def create_week(self, list_of_employee_objects):
         self.add_days()
         self.add_workers_to_days(list_of_employee_objects)
 
+    # prints out which days and shifts each employee is working
     def get_employees_working(self):
         for day in self.list_of_days:
             day.get_names_of_employees_working()

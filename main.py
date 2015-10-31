@@ -2,10 +2,15 @@ import employeelist
 import employee
 import day
 
+month = '/10/'
+
+year = '2015'
+
 list_of_employee_objects = []
 id = 1
-start_date = 1
-week = day.Week(start_date)
+
+week = day.Week(month, year)
+
 
 # manages entire program
 def main():
