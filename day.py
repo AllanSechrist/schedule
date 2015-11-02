@@ -1,5 +1,5 @@
 import random
-import employee
+
 
 
 class Day(object):
@@ -16,7 +16,7 @@ class Day(object):
         self.closing_shift = []
         self.weekend = weekend
         self.shifts_to_cover = 20
-        self.job_duties = ['s/4', 's/3', 'u/2', 'p/5', 'u/p']
+        self.job_duties = ['box', 's/4', 's/3', 'u/2', 'p/5', 'u/1', 'p/6', 'u/p', 'u/p', 'u/p']
 
     def remove_from_list(self, copied_to, copied_from):
         for name in copied_to:
@@ -35,50 +35,73 @@ class Day(object):
         self.remove_from_list(self.closing_shift, self.opening_shift)
 
     def get_names_of_employees_working(self):
+        job = 0
+        print('FOR THE DAY OF ' + self.date)
         for employee in self.opening_shift:
-            print("opening:", self.date, employee.name, employee.job_duty)
-        for employee in self.closing_shift:
-            print("closing:", self.date, employee.name, employee.job_duty)
+            print("opening:", self.date, employee.name, self.job_duties[job], "Days:", employee.days)
+            job += 1
         print()
-
+        job = 0
+        for employee in self.closing_shift:
+            print("closing:", self.date, employee.name, self.job_duties[job], "Days:", employee.days)
+            job += 1
+        print()
+    """
     def assign_shift_duties(self, shift):
         job = 0
         for employee in shift:
-            employee.assign_job_duty(self.job_duties[job])
-            job += 1
+            #employee.assign_job_duty(self.job_duties[job])
 
+            job += 1
+            employee.days += 1
 
     def assign_job_duties(self):
         self.assign_shift_duties(self.opening_shift)
         self.assign_shift_duties(self.closing_shift)
+    """
+    def add_day(self, shift):
+        for employee in shift:
+            employee.days += 1
 
+    def add_employee_days(self):
+        self.add_day(self.opening_shift)
+        self.add_day(self.closing_shift)
 
 class Week(object):
     """
     Manages days and the assignment of duties and scheduling for each day
     """
 
-    def __init__(self, month, year):
+    def __init__(self, month, year, week):
         self.start_day = 1
         self.month = month
         self.year = year
-        self.week = 7
+        self.week = week
         self.list_of_days = []
 
     # adds day objects to the week
     def add_days(self):
-        for x in range(self.week):
+        name = 0
+        for x in range(len(self.week)):
             date = str(self.start_day) + self.month + self.year
-            day = Day(date, weekend=False)
+            #day = Day(date, weekend=False)
+
+            if self.week[name] == 'FRIDAY' or self.week[name] == 'SATURDAY' or self.week[name] == 'SUNDAY':
+                day = Day(date, weekend=True)
+            else:
+                day = Day(date, weekend=False)
+
             self.list_of_days.append(day)
             self.start_day += 1
+            name += 1
 
     # assigns employees a shift for each day in this week
     def add_workers_to_days(self, list_of_employee_objects):
         for day in self.list_of_days:
             day.add_workers(list_of_employee_objects)
             day.assign_shift()
-            day.assign_job_duties()
+            day.add_employee_days()
+            #day.assign_job_duties()
 
     # creates the week
     def create_week(self, list_of_employee_objects):

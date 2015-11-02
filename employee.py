@@ -9,20 +9,19 @@ class Employee(object):
         self.days = 0
         self.job_duty = ''
 
-    """
-    def get_name(self):
-        return self.name
 
-    def get_id(self):
-        return self.id
-
-    def get_days(self):
-        return self.days
     """
+    I discoved that this function does not work as intended
+    as the employee object is created only once, each time
+    an employee is assigned a new job duty for a new shift
+    if overrides self.job_duty and makes it that persons
+    job duty for the whole week, job duties must be assigned to
+    the shift for each day, for it is the day object that changes
+    not the employee object
 
     def assign_job_duty(self, job_duty):
         self.job_duty = job_duty
-
+    """
 
 class Manager(Employee):
     def __init__(self, name, id):
